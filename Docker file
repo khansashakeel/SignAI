@@ -1,0 +1,27 @@
+# ---------- Base image ----------
+FROM python:3.11-slim
+
+# ---------- Set working directory ----------
+WORKDIR /app
+
+# ---------- Copy and install dependencies ----------
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# ---------- Copy all application files ----------
+COPY . .
+
+# ---------- Create audio folder for TTS ----------
+RUN mkdir -p frontend/static/audio
+
+# ---------- Expose port (Azure App Service uses 8000 by default) ----------
+EXPOSE 8000
+
+# ---------- Set environment variables ----------
+ENV MODEL_DIR=/app/model
+ENV AUDIO_FOLDER=/app/frontend/static/audio
+ENV PORT=8000
+ENV DEBUG=False
+
+# ---------- Command to run the app using Gunicorn ----------
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "app:app"]
