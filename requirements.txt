@@ -1,0 +1,11 @@
+flask
+flask-cors
+gunicorn
+numpy
+tensorflow
+scikit-learn
+joblib
+gtts
+opencv-python-headless
+mediapipe
+python-Levenshtein
